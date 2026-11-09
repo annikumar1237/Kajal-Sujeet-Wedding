@@ -58,8 +58,8 @@ header a{
   text-align:center;
   padding:45px 18px;
   background:
-    linear-gradient(135deg,rgba(71,13,49,.80),rgba(120,34,83,.60)),
-    url("wedding-art.svg") center/cover;
+    linear-gradient(135deg,rgba(44,12,31,.65),rgba(68,19,45,.47)),
+    url("cover.webp") center/cover;
   color:white;
 }
 .hero-inner{
@@ -67,7 +67,7 @@ header a{
   padding:35px 20px;
   border:1px solid #ffe09a;
   border-radius:24px;
-  background:rgba(51,12,37,.38);
+  background:rgba(51,12,37,.59);
 }
 .hero h1{
   font-size:clamp(48px,10vw,92px);
@@ -282,7 +282,7 @@ body {padding-bottom:100px}
 #eventViewer{width:100vw;max-width:none;height:100dvh;max-height:none;margin:0;padding:60px 20px 24px;border:0;background:var(--cream);color:var(--ink);overflow:auto;box-sizing:border-box}
 #eventViewer::backdrop{background:#392238}
 #eventViewer .event-card{max-width:1000px;margin:auto}
-#eventViewer .event-image{height:45vh;object-fit:contain;background:#f5d9e7}
+#eventViewer .event-image{height:45vh;object-fit:contain;background:#39142c}
 #eventViewer .event-content{max-width:700px;margin:auto}
 #closeEvent{position:fixed;right:16px;top:10px;z-index:2}
 #eventViewer .viewer-nav{text-align:center}
@@ -293,12 +293,6 @@ section[id]{scroll-margin-top:100px}
 .hero h1{line-height:1.12}
 .hero .ornament{margin-bottom:8px}
 .person-image{display:grid;place-items:center;font-size:44px;color:var(--wine);width:90px;height:90px}
-.event-art{display:grid;place-content:center;text-align:center;background:linear-gradient(145deg,var(--panel,#6f2147),#39142c);color:#ffe0a1;position:relative;overflow:hidden}
-.event-art:before,.event-art:after{content:"";position:absolute;inset:18px;border:1px solid #f9cd7680;border-radius:16px;pointer-events:none}
-.event-art:after{inset:26px;border-style:dashed;opacity:.6}
-.event-art span{font-size:clamp(64px,12vw,124px);line-height:1.3}
-.event-art b{font-size:18px;font-weight:normal}
-#eventViewer .event-art{background:linear-gradient(145deg,var(--panel,#6f2147),#39142c)}
 #eventViewer .event-content{text-align:center}
 #eventViewer .viewer-nav button:disabled{opacity:.4}
 .event-card.is-current{scroll-margin-top:165px}
@@ -353,7 +347,7 @@ section[id]{scroll-margin-top:100px}
   <div id="eventStage">
     <div class="event-grid">
     <article class="card event-card" id="event-0" role="region" aria-labelledby="tab-0">
-      <div class="event-image event-art" style="--panel:#946125" aria-hidden="true"><span>🙏</span><b>✦ पूजन–हल्दी ✦</b></div>
+      <img class="event-image" src="poojan-haldi.webp" alt="पूजन और हल्दी के लिए कलश, पूजा की थाली और गेंदे के फूल" width="883" height="439" loading="lazy" decoding="async">
       <div class="event-content">
         <p class="date">23 नवंबर 2026 · सोमवार</p>
         <h3>सत्यनारायण पूजन एवं घृतढारी–मटकोर, हल्दी कलश</h3>
@@ -362,7 +356,7 @@ section[id]{scroll-margin-top:100px}
       </div>
     </article>
     <article class="card event-card" id="event-1" role="region" aria-labelledby="tab-1">
-      <div class="event-image event-art" style="--panel:#375e4d" aria-hidden="true"><span>♫</span><b>✦ मेहंदी–संगीत ✦</b></div>
+      <img class="event-image" src="mehendi-sangeet.webp" alt="मेहंदी से सजे हाथ, हरी चूड़ियाँ और ढोलक" width="883" height="439" loading="lazy" decoding="async">
       <div class="event-content">
         <p class="date">24 नवंबर 2026 · मंगलवार</p>
         <h3>मेहंदी एवं संगीत</h3>
@@ -371,7 +365,7 @@ section[id]{scroll-margin-top:100px}
       </div>
     </article>
     <article class="card event-card" id="event-2" role="region" aria-labelledby="tab-2">
-      <div class="event-image event-art" style="--panel:#8b345d" aria-hidden="true"><span>❀</span><b>✦ बारात–विवाह ✦</b></div>
+      <img class="event-image" src="wedding-mandap.webp" alt="लाल फूलों से सजा विवाह मंडप और पवित्र अग्नि" width="883" height="439" loading="lazy" decoding="async">
       <div class="event-content">
         <p class="date">25 नवंबर 2026 · बुधवार</p>
         <h3>बारात आगमन, प्रीतिभोज एवं शुभ विवाह</h3>
@@ -417,69 +411,48 @@ section[id]{scroll-margin-top:100px}
     <button class="btn gold-btn" id="viewerNext" type="button">अगला →</button>
   </div>
 </dialog>
+<audio id="weddingMusic" src="wedding-theme.mp3" preload="metadata" loop></audio>
 <button type="button" class="floating-music" onclick="toggleMusic()" id="musicButton" aria-pressed="false">🎵 संगीत चलाएँ</button>
 <script>
-// Uploaded tracks stay in the background. One reusable player prevents overlap.
-const defaultTrack = {name:"Wedding instrumental", src:"./wedding-theme.mp3"};
-const weddingMusic = new Audio(defaultTrack.src);
-weddingMusic.loop = true;
-weddingMusic.preload = "auto";
+const welcomeTrack = "wedding-theme.mp3";
+const eventTracks = ["poojan-haldi.mp3", "mehendi-sangeet.mp3", "wedding-mandap.mp3"];
+const weddingMusic = document.getElementById("weddingMusic");
 weddingMusic.volume = 0.5;
 const musicButton = document.getElementById("musicButton");
 const musicDialog = document.getElementById("musicDialog");
 const musicStatus = document.getElementById("musicStatus");
-const stage = document.getElementById("eventStage");
 const tabs = [...document.querySelectorAll("[data-event]")];
 const panels = [...document.querySelectorAll(".event-card")];
 let selectedEvent = 0;
+let activeTrack = welcomeTrack;
 let enabled = false;
 let requestVersion = 0;
-let playbackState = "paused";
-let loadTimer;
 
-function setStatus(state, message) {
-  playbackState = state;
-  musicButton.textContent = state === "playing" || state === "loading"
-    ? "⏸ संगीत रोकें" : "🎵 संगीत चलाएँ";
+function updateMusicButton(message = "") {
+  musicButton.textContent = enabled ? "⏸ संगीत रोकें" : "🎵 संगीत चलाएँ";
   musicButton.setAttribute("aria-pressed", String(enabled));
-  musicButton.title = message || (enabled ? "Pause background music" : "Play background music");
   if (message) musicStatus.textContent = message;
 }
 function pauseMusic() {
   enabled = false;
   requestVersion++;
-  clearTimeout(loadTimer);
   weddingMusic.pause();
-  setStatus("paused", "Music paused. Tap संगीत चलाएँ whenever you are ready.");
+  updateMusicButton("संगीत रुका है। फिर सुनने के लिए संगीत चलाएँ।");
 }
 async function startMusic() {
   enabled = true;
   const version = ++requestVersion;
-  if (!weddingMusic.paused && playbackState === "playing") {
-    setStatus("playing");
-    return true;
-  }
-  setStatus("loading", "Loading background music…");
-  clearTimeout(loadTimer);
-
+  if (weddingMusic.getAttribute("src") !== activeTrack) weddingMusic.src = activeTrack;
+  updateMusicButton();
   try {
-    // Calling play before any await preserves the visitor's click permission.
     await weddingMusic.play();
-    if (version !== requestVersion) return true;
-    if (!enabled) {
-      weddingMusic.pause();
-      return true;
-    }
-    clearTimeout(loadTimer);
-    setStatus("playing");
-    return true;
+    return version === requestVersion ? enabled : true;
   } catch (error) {
     if (version !== requestVersion) return true;
     enabled = false;
-    clearTimeout(loadTimer);
-    setStatus("blocked", error.name === "NotAllowedError"
-      ? "Tap Allow Music or संगीत चलाएँ to start the invitation soundtrack."
-      : "Music could not load. Check your connection and tap संगीत चलाएँ to retry.");
+    updateMusicButton(error.name === "NotAllowedError"
+      ? "निमंत्रण का संगीत सुनने के लिए नीचे बटन दबाएँ।"
+      : "संगीत लोड नहीं हुआ। दोबारा चलाकर देखें।");
     return false;
   }
 }
@@ -487,11 +460,11 @@ function toggleMusic() {
   if (enabled) pauseMusic();
   else startMusic();
 }
-weddingMusic.addEventListener("error", () => {
-  if (!enabled) return;
-  pauseMusic();
-  setStatus("error", "Music could not load. Check your connection and tap संगीत चलाएँ to retry.");
-});
+function selectTrack(track) {
+  if (activeTrack === track) return;
+  activeTrack = track;
+  if (enabled) startMusic();
+}
 function refreshSelectedEvent() {
   tabs.forEach((tab, index) => {
     tab.setAttribute("aria-current", String(index === selectedEvent));
@@ -533,9 +506,6 @@ musicDialog.addEventListener("close", () => musicButton.focus());
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden && enabled && weddingMusic.paused) startMusic();
 });
-weddingMusic.addEventListener("ended", () => {
-  if (enabled) { weddingMusic.currentTime = 0; startMusic(); }
-});
 // Select the card crossing a reading line below the sticky header and navigation.
 // Fixed card geometry means the highlight and song stay stable near boundaries.
 function updateEventFromScroll() {
@@ -555,6 +525,7 @@ function updateEventFromScroll() {
       if (rect.top <= readingLine) next = index;
     });
   }
+  selectTrack(visible ? eventTracks[next] : welcomeTrack);
   if (visible && next !== selectedEvent) {
     selectedEvent = next;
     refreshSelectedEvent();
@@ -595,7 +566,7 @@ function openEvent(index) {
     if (viewer.requestFullscreen) viewer.requestFullscreen().catch(() => {});
   }
   viewer.scrollTop = 0;
-  if (enabled) startMusic();
+  selectTrack(eventTracks[index]);
 }
 document.getElementById("closeEvent").onclick = () => viewer.close();
 viewer.addEventListener("close", () => {
@@ -619,7 +590,7 @@ panels.forEach((panel, index) => {
 });
 refreshSelectedEvent();
 updateEventFromScroll();
-setStatus("paused");
+updateMusicButton();
 startMusic().then(ok => {
   if (!ok && !enabled && !musicDialog.open) musicDialog.showModal();
 });
